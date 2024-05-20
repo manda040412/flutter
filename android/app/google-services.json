@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "353490167377",
+    "project_id": "maxmovement-a3b69",
+    "storage_bucket": "maxmovement-a3b69.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:353490167377:android:78356ff68c198231337a70",
+        "android_client_info": {
+          "package_name": "com.example.maxmovement"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCWW9QV1bKPjwQwR_Dqmd2HXOL5m10l1c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
