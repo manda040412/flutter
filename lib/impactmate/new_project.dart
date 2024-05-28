@@ -3,7 +3,10 @@ import 'package:file_picker/file_picker.dart';
 import 'dart:async';
 
 import 'package:maxmovement/impactmate/im_home_page.dart';
+import 'package:maxmovement/impactmate/new_report.dart';
+import 'package:maxmovement/impactmate/profile_page.dart';
 import 'package:maxmovement/impactmate/projects.dart';
+import 'package:maxmovement/impactmate/report_page.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -29,7 +32,10 @@ class _NewProjectState extends State<NewProject> {
   String? fundingType;
   double otherFundingAmount = 0.0;
   String? otherFundingType;
+  String? location;
   List<String> selectedTags = [];
+  String? selectedIndicator;
+  String? selectedMetric;
   TextEditingController _filePathController = TextEditingController();
   String _filePath = '';
   List<String> selectedSDGCategories = [];
@@ -65,7 +71,7 @@ class _NewProjectState extends State<NewProject> {
     }
   }
 
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
 
   // BottomNavigationBarItem generator
   BottomNavigationBarItem _bottomNavigationBarItem(
@@ -77,34 +83,130 @@ class _NewProjectState extends State<NewProject> {
   }
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      if (_selectedIndex == 0) {
-        // Jika indeks 0 (Home) ditekan, pindahkan ke HomePage
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => IMHomePage()),
-        );
-      } else if (_selectedIndex == 1) {
-        // Jika indeks 1 (Projects) ditekan, pindahkan ke ProjectsPage
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => ProjectPage()),
-        );
-      }
-      // Tambahkan logika untuk item lainnya jika diperlukan
-    });
+    if (index == 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => IMHomePage()),
+      );
+    } else if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ProjectPage()),
+      );
+    } else if (index == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ReportPage()),
+      );
+    } else if (index == 4) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ProfilePage()),
+      );
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
 
-  void _showPopupMenu(BuildContext context) {}
+  void _showPopupMenu(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Choose what you want to create',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                ),
+              ),
+              SizedBox(height: 16),
+              Wrap(
+                children: <Widget>[
+                  Material(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFF517D5A),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      onTap: () {
+                        // Navigate to NewProjectPage
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => NewProject()),
+                        );
+                        // Navigator.pop(context); // Close the bottom sheet
+                      },
+                      child: Container(
+                        width: 500,
+                        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                        child: Row(
+                          children: [
+                            Icon(Icons.add, color: Colors.white),
+                            SizedBox(width: 10),
+                            Text(
+                              'New Project',
+                              style: TextStyle(color: Colors.white, fontFamily: 'Poppins'), // Ubah warna teks menjadi putih
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 60),
+                  Material(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFF517D5A),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => NewReport()),
+                        );
+                      },
+                      child: Container(
+                        width: 500,
+                        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                        child: Row(
+                          children: [
+                            Icon(Icons.report, color: Colors.white),
+                            SizedBox(width: 10),
+                            Text(
+                              'Report Impact',
+                              style: TextStyle(color: Colors.white, fontFamily: 'Poppins'), // Ubah warna teks menjadi putih
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('New Project'),
+        automaticallyImplyLeading: false,
+        title: Text('New Project', style: TextStyle(fontFamily: 'Poppins',),
+                    ),
       ),
-      body: SingleChildScrollView(
+      body: 
+      SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -112,12 +214,8 @@ class _NewProjectState extends State<NewProject> {
             Container(
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Color(0xFFE2C8FD), Color(0xFFA3E3F1)],
-                ),
-                borderRadius: BorderRadius.circular(10.0),
+                color: Color(0xFFFDFDFD), // Set background color
+                borderRadius: BorderRadius.circular(20.0),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.5),
@@ -132,18 +230,18 @@ class _NewProjectState extends State<NewProject> {
                 children: [
                   Text(
                     'About Your Project',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
                   ),
                   SizedBox(height: 15),
                   _buildTextField('Project Name', (value) {
                     projectName = value;
-                  }),
+                  },),
                   SizedBox(height: 15),
                   _buildTextField('Project Description', (value) {
                     projectDescription = value;
                   }),
                   SizedBox(height: 15),
-                  _buildTextField('Project Goals', (value) {
+                  _buildTextField('Project Goals', (value,) {
                     projectGoals = value;
                   }),
                 ],
@@ -153,12 +251,8 @@ class _NewProjectState extends State<NewProject> {
             Container(
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Color(0xFFE2C8FD), Color(0xFFA3E3F1)],
-                ),
-                borderRadius: BorderRadius.circular(10.0),
+                color: Color(0xFFFDFDFD), // Set background color
+                borderRadius: BorderRadius.circular(20.0),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.5),
@@ -173,35 +267,47 @@ class _NewProjectState extends State<NewProject> {
                 children: [
                   Text(
                     'Start Project & End Project',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
                   ),
                   SizedBox(height: 10),
                   GestureDetector(
                     onTap: () => _selectDate(context, true),
                     child: AbsorbPointer(
-                      child: _buildTextField('Start Date', (value) {}),
+                      child: _buildTextField('Start Project', (value) {},),
                     ),
                   ),
                   SizedBox(height: 10),
                   GestureDetector(
                     onTap: () => _selectDate(context, false),
                     child: AbsorbPointer(
-                      child: _buildTextField('End Date', (value) {}),
+                      child: _buildTextField('End Project', (value) {}),
                     ),
+                  ),
+                  SizedBox(height: 10),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Location',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(13.0),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    ),
+                    keyboardType: TextInputType.text,
+                    onChanged: (value) {
+                      location = value;
+                    },
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 23),
             Container(
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Color(0xFFE2C8FD), Color(0xFFA3E3F1)],
-                ),
-                borderRadius: BorderRadius.circular(10.0),
+                color: Color(0xFFFDFDFD), // Set background color
+                borderRadius: BorderRadius.circular(20.0),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.5),
@@ -216,11 +322,11 @@ class _NewProjectState extends State<NewProject> {
                 children: [
                   Text(
                     'Funding',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
                   ),
                   Text(
                     '(Enter the amount of money that will be used for this project)',
-                    style: TextStyle(fontSize: 12,),
+                    style: TextStyle(fontSize: 12, fontFamily: 'Poppins'),
                   ),
                   SizedBox(height: 10),
                   TextFormField(
@@ -228,7 +334,7 @@ class _NewProjectState extends State<NewProject> {
                       labelText: 'Amount',
                       suffixText: 'USD',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(13.0),
                       ),
                       filled: true,
                       fillColor: Colors.white,
@@ -241,27 +347,17 @@ class _NewProjectState extends State<NewProject> {
                   ),
                   Text(
                     '*After you successfully create a new project, the amount you input will automatically be deducted from your total grants',
-                    style: TextStyle(fontSize: 12, color: Colors.red),
+                    style: TextStyle(fontSize: 12, color: Colors.red, fontFamily: 'Poppins'),
                   ),
-                  SizedBox(height: 10),
-                  _buildDropdownField('Other Funding', (newValue) {
-                    setState(() {
-                      otherFundingType = newValue;
-                    });
-                  }),
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 23),
             Container(
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Color(0xFFE2C8FD), Color(0xFFA3E3F1)],
-                ),
-                borderRadius: BorderRadius.circular(10.0),
+                color: Color(0xFFFDFDFD), // Set background color
+                borderRadius: BorderRadius.circular(20.0),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.5),
@@ -276,7 +372,7 @@ class _NewProjectState extends State<NewProject> {
                 children: [
                   Text(
                     'Tags',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
                   ),
                   SizedBox(height: 10),
                   Wrap(
@@ -320,7 +416,10 @@ class _NewProjectState extends State<NewProject> {
                           child: Container(
                             width: 60,
                             height: 60,
-                            color: Color(0xFFE0C9FD), // Warna bisa disesuaikan dengan kebutuhan desain Anda
+                            decoration: BoxDecoration(
+                              color: Color(0xFFB8B8B8), // Warna bisa disesuaikan dengan kebutuhan desain Anda
+                              borderRadius: BorderRadius.circular(10), // Membuat border radius bulat
+                            ),
                             child: Icon(Icons.add),
                           ),
                         );
@@ -334,48 +433,44 @@ class _NewProjectState extends State<NewProject> {
                       ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFFC893FD),
+                          backgroundColor: Color(0xFF7FA57E),
                           foregroundColor: Colors.white,
                           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                          textStyle: TextStyle(fontSize: 12),
+                          textStyle: TextStyle(fontSize: 10),
                         ),
-                        child: Text('Cancel'),
+                        child: Text('Cancel', style: TextStyle(fontFamily: 'Poppins',)),
                       ),
                       ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF9F3FFF),
+                          backgroundColor: Color(0xFF5B8759),
                           foregroundColor: Colors.white,
                           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                          textStyle: TextStyle(fontSize: 12),
+                          textStyle: TextStyle(fontSize: 10),
                         ),
-                        child: Text('Add to Draft'),
+                        child: Text('Add to Draft', style: TextStyle(fontFamily: 'Poppins',)),
                       ),
                       ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF8000FF),
+                          backgroundColor: Color(0xFF3A6238),
                           foregroundColor: Colors.white,
                           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                          textStyle: TextStyle(fontSize: 12),
+                          textStyle: TextStyle(fontSize: 10),
                         ),
-                        child: Text('Save & Upload'),
+                        child: Text('Save & Upload', style: TextStyle(fontFamily: 'Poppins',)),
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 23),
             Container(
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Color(0xFFE2C8FD), Color(0xFFA3E3F1)],
-                ),
-                borderRadius: BorderRadius.circular(10.0),
+                color: Color(0xFFFDFDFD), // Set background color
+                borderRadius: BorderRadius.circular(20.0),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.5),
@@ -390,7 +485,7 @@ class _NewProjectState extends State<NewProject> {
                 children: [
                   Text(
                     'SDG Category',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
                   ),
                   SizedBox(height: 10),
                   Wrap(
@@ -433,48 +528,166 @@ class _NewProjectState extends State<NewProject> {
                       ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFFC893FD),
+                          backgroundColor: Color(0xFF7FA57E),
                           foregroundColor: Colors.white,
-                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                          textStyle: TextStyle(fontSize: 12),
+                          padding: EdgeInsets.symmetric(vertical: 10, horizontal:  25),
+                          textStyle: TextStyle(fontSize: 10),
                         ),
-                        child: Text('Cancel'),
+                        child: Text('Cancel', style: TextStyle(fontFamily: 'Poppins',)),
                       ),
                       ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF9F3FFF),
+                          backgroundColor: Color(0xFF5B8759),
                           foregroundColor: Colors.white,
                           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                          textStyle: TextStyle(fontSize: 12),
+                          textStyle: TextStyle(fontSize: 10),
                         ),
-                        child: Text('Add to Draft'),
+                        child: Text('Add to Draft', style: TextStyle(fontFamily: 'Poppins',)),
                       ),
                       ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF8000FF),
+                          backgroundColor: Color(0xFF3A6238),
                           foregroundColor: Colors.white,
                           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                          textStyle: TextStyle(fontSize: 12),
+                          textStyle: TextStyle(fontSize: 10),
                         ),
-                        child: Text('Save & Upload'),
+                        child: Text('Save & Upload', style: TextStyle(fontFamily: 'Poppins',)),
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 23),
             Container(
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Color(0xFFE2C8FD), Color(0xFFA3E3F1)],
-                ),
-                borderRadius: BorderRadius.circular(10.0),
+                color: Color(0xFFFDFDFD), // Set background color
+                borderRadius: BorderRadius.circular(20.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 3,
+                    blurRadius: 7,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'SDG Indicators',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
+                  ),
+                  Text(
+                    'Choose from the SDG indicator which goal are you achieving in this report.',
+                    style: TextStyle(fontSize: 12, fontFamily: 'Poppins'),
+                  ),
+                  SizedBox(height: 10),
+                  DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      labelText: 'Choose Indicators',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    ),
+                    value: selectedIndicator, // Tambahkan nilai yang dipilih
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedIndicator = newValue; // Perbarui nilai yang dipilih saat opsi dipilih
+                      });
+                    },
+                    items: [
+                      DropdownMenuItem(
+                        child: Text('Indicator 1'),
+                        value: 'Indicator 1',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('Indicator 2'),
+                        value: 'Indicator 2',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('Indicator 3'),
+                        value: 'Indicator 3',
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 23),
+            Container(
+              padding: EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: Color(0xFFFDFDFD), // Set background color
+                borderRadius: BorderRadius.circular(20.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 3,
+                    blurRadius: 7,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Define Project by Metrics',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
+                  ),
+                  Text(
+                    'Choose the metrics which goal are you achieving in this report.',
+                    style: TextStyle(fontSize: 12, fontFamily: 'Poppins'),
+                  ),
+                  SizedBox(height: 10),
+                  DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      labelText: 'Choose Metrics',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    ),
+                    value: selectedMetric, // Ubah nilai selectedMetric dengan nilai yang sesuai
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedMetric = newValue; // Perbarui nilai selectedMetric saat opsi dipilih
+                      });
+                    },
+                    items: [
+                      DropdownMenuItem(
+                        child: Text('Metric 1'),
+                        value: 'Metric 1',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('Metric 2'),
+                        value: 'Metric 2',
+                      ),
+                      DropdownMenuItem(
+                        child: Text('Metric 3'),
+                        value: 'Metric 3',
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 23),
+            Container(
+              padding: EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: Color(0xFFFDFDFD), // Set background color
+                borderRadius: BorderRadius.circular(20.0),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.5),
@@ -489,7 +702,7 @@ class _NewProjectState extends State<NewProject> {
                 children: [
                   Text(
                     'Import Data',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
                   ),
                   SizedBox(height: 10),
                   Row(
@@ -531,26 +744,27 @@ class _NewProjectState extends State<NewProject> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
-                  ElevatedButton(
+                ],
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
                     onPressed: () {
                       if (_filePath.isNotEmpty) {
                         // Use _filePath to import the file
                       }
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF8000FF),
-                      foregroundColor: Colors.white,
-                      textStyle: TextStyle(fontSize: 16),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF395143)),
+                      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                      minimumSize: MaterialStateProperty.all<Size>(Size(100, 45)), // Atur lebar dan tinggi
                     ),
-                    child: Text('Import'),
+                    child: Text('Create', style: TextStyle(fontFamily: 'Poppins',)),
                   ),
-                ],
-              ),
-            ),
           ],
         ),
       ),
+      
       bottomNavigationBar: SizedBox(
         height: 70,
         child: BottomNavigationBar(
@@ -583,27 +797,30 @@ class _NewProjectState extends State<NewProject> {
   }
 
   Widget _buildTextField(String labelText, Function(String) onChanged) {
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: labelText,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        filled: true,
-        fillColor: Colors.white,
-        hintStyle: TextStyle(color: Colors.white),
-        contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+  return TextFormField(
+    decoration: InputDecoration(
+      labelText: labelText,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(13.0),
       ),
-      onChanged: onChanged,
-    );
-  }
+      filled: true,
+      fillColor: Colors.white,
+      hintStyle: TextStyle(color: Colors.white),
+      contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+    ),
+    onChanged: onChanged,
+    style: TextStyle(
+      fontFamily: 'Poppins',
+    ),
+  );
+}
 
   Widget _buildDropdownField(String labelText, Function(String?) onChanged) {
     return DropdownButtonFormField<String>(
       decoration: InputDecoration(
         labelText: labelText,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(13.0),
         ),
         filled: true,
         fillColor: Colors.white,
@@ -615,7 +832,10 @@ class _NewProjectState extends State<NewProject> {
       items: fundingOptions.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
-          child: Text(value),
+          child: Text(value,
+          style: TextStyle(
+            fontFamily: 'Poppins',
+          ),),
         );
       }).toList(),
     );

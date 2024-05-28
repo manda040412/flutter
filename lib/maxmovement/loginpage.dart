@@ -1,75 +1,16 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
 import 'package:maxmovement/maxmovement/home_page.dart';
 import 'package:maxmovement/maxmovement/signup_page.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({Key? key}) : super(key: key);
+class LoginPagee extends StatelessWidget {
+  LoginPagee({Key? key}) : super(key: key);
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final String FontPoppins = 'FontPoppins';
+  final String FontPoppins = 'Poppins';
 
-  Future<void> login(BuildContext context) async {
-    var url = Uri.parse("http://192.168.18.66/maxmovement/maxmovement/flutter/login.php");
-
-    try {
-      var response = await http.post(url, body: {
-        "email": emailController.text,
-        "password": passwordController.text,
-      });
-
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> responseData = json.decode(response.body);
-
-        if (responseData['status'] == 'success') {
-          Fluttertoast.showToast(
-              msg: "Login Successful",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.green,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
-          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-        } else {
-          Fluttertoast.showToast(
-              msg: responseData['message'] ?? 'An error occurred',
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.red,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
-        }
-      } else {
-        // Handle HTTP error response
-        Fluttertoast.showToast(
-            msg: "Failed to connect to server",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
-      }
-    } catch (e) {
-      // Handle connection error
-      Fluttertoast.showToast(
-          msg: "Connection Error: $e",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-    }
+  void login(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   }
 
   @override
@@ -91,12 +32,13 @@ class LoginPage extends StatelessWidget {
               children: <Widget>[
                 Text(
                   "Login",
-                  style: TextStyle(fontFamily: 'Inter', fontSize: 30, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontFamily: FontPoppins, fontSize: 30, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 5),
                 Text(
                   "Login to your account",
                   style: TextStyle(
+                    fontFamily: FontPoppins,
                     fontSize: 15,
                     color: Colors.black,
                   ),
@@ -130,6 +72,7 @@ class LoginPage extends StatelessWidget {
                             child: Text(
                               "Login",
                               style: TextStyle(
+                                fontFamily: FontPoppins,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 18,
                                 color: Colors.white,
@@ -153,6 +96,7 @@ class LoginPage extends StatelessWidget {
                             child: Text(
                               "Forgot Password?",
                               style: TextStyle(
+                                fontFamily: FontPoppins,
                                 fontSize: 14,
                                 color: Colors.black,
                               ),
@@ -167,7 +111,10 @@ class LoginPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text("Don't have an account?"),
+                    Text(
+                      "Don't have an account?",
+                      style: TextStyle(fontFamily: FontPoppins),
+                    ),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
@@ -178,6 +125,7 @@ class LoginPage extends StatelessWidget {
                       child: Text(
                         "Create your account now",
                         style: TextStyle(
+                          fontFamily: FontPoppins,
                           decoration: TextDecoration.underline,
                         ),
                       ),
@@ -199,8 +147,9 @@ class LoginPage extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
+            fontFamily: FontPoppins,
             fontSize: 15,
-                        fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.bold,
             color: Colors.black87,
           ),
         ),
@@ -225,7 +174,3 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
-
-
-
-

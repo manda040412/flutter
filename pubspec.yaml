@@ -32,12 +32,13 @@ dependencies:
     sdk: flutter
   image_picker: ^0.8.5+3
   cupertino_icons: ^1.0.2
-  fl_chart: ^0.67.0
+  fl_chart: ^0.68.0
   firebase_core: ^2.30.1
   file_picker: ^4.0.0
   http: ^0.13.3
   fluttertoast: ^8.0.7
   crypto: ^3.0.1
+  url_launcher: ^6.0.20
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -100,6 +101,15 @@ flutter:
     - assets/tag7.png
     - assets/tag8.png
     - assets/tag9.png
+    - assets/profile.jpeg
+    - assets/tbn_logo.png
+
+  #Untuk mendaftarkan font yang digunakan
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: font/Poppins-Regular.ttf
+          weight: 700
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

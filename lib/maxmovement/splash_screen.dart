@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:maxmovement/maxmovement/home_page.dart';
 import 'package:maxmovement/maxmovement/login_page.dart';
+import 'package:maxmovement/maxmovement/loginpage.dart';
 
 class MMSplashScreen extends StatefulWidget {
   const MMSplashScreen({Key? key}) : super(key: key);
@@ -20,7 +21,7 @@ class _SplashScreenState extends State<MMSplashScreen>
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (_) => LoginPage(),
+          builder: (_) => LoginPagee(),
         ),
       );
     });

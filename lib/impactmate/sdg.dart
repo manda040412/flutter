@@ -10,6 +10,7 @@ class Sdg extends StatelessWidget {
   final String dateInfo;
   final String buttonText;
   final String buttonText1;
+  final VoidCallback onUpdatePressed;
 
   const Sdg({
     required this.title,
@@ -20,6 +21,7 @@ class Sdg extends StatelessWidget {
     required this.dateInfo,
     required this.buttonText,
     required this.buttonText1,
+    required this.onUpdatePressed,
   });
 
   @override
@@ -35,11 +37,15 @@ class Sdg extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15.0),
-          gradient: LinearGradient(
-            colors: [Color(0xFFEEDFFF), Color(0xFFD8B5FF)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
+          color: Color(0xFFFDFDFD), // Warna penuh FDFDFD
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              spreadRadius: 5,
+              blurRadius: 8,
+              offset: Offset(0, 0), // perubahan posisi shadow
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,9 +87,11 @@ class Sdg extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 ElevatedButton(
-                  onPressed: () {
-                    // Tindakan untuk tombol pertama
-                  },
+                  onPressed: onUpdatePressed,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF395143), // Warna latar belakang tombol
+                    foregroundColor: Color(0xFFFFFFFF), // Warna teks tombol
+                  ),
                   child: Text(buttonText),
                 ),
                 SizedBox(width: 8),
@@ -91,6 +99,10 @@ class Sdg extends StatelessWidget {
                   onPressed: () {
                     // Tindakan untuk tombol kedua
                   },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF395143), // Warna latar belakang tombol
+                    foregroundColor: Color(0xFFFFFFFF), // Warna teks tombol
+                  ),
                   child: Text(buttonText1),
                 ),
               ],

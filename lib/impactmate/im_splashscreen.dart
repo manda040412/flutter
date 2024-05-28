@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maxmovement/impactmate/im_login.dart';
 import 'package:maxmovement/impactmate/im_signup.dart';
 
 class IMSplashScreen extends StatefulWidget {
@@ -21,25 +22,39 @@ class _IMSplashScreenState extends State<IMSplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset(
+              'assets/impactmate_logo.png',
+              width: 200, // Ubah ukuran lebar sesuai keinginan Anda
+              height: 200, // Ubah ukuran tinggi sesuai keinginan Anda
+            ),
             const Text(
               'ImpactMate',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 25,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Image.asset('assets/impactmate_logo.png'),
-            const Text(
-              'TBN Indonesia IMM',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+            const SizedBox(height: 60),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'from',
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+                Image.asset(
+                  'assets/tbn_logo.png',
+                  width: 150, // Ubah ukuran lebar sesuai keinginan Anda
+                  height: 150, // Ubah ukuran tinggi sesuai keinginan Anda
+                ),
+              ],
             ),
-            const SizedBox(height: 90),
+            const SizedBox(height: 40),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => IMSignInPage())).then((value) {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => IMLoginPage())).then((value) {
                   if (value != null && value is int) {
                     setState(() {
                       _selectedIndex = value;

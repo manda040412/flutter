@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:maxmovement/impactmate/company_form.dart';
-import 'package:maxmovement/maxmovement/select_page.dart';
 
 class IMVerificationPage extends StatelessWidget {
   const IMVerificationPage({Key? key}) : super(key: key);
@@ -24,18 +23,19 @@ class IMVerificationPage extends StatelessWidget {
         child: Center(
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start, // Ubah menjadi MainAxisAlignment.start
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                SizedBox(height: 1), // Tambahkan SizedBox
-                Image.asset( // Tambahkan gambar logo
+                SizedBox(height: 20),
+                Image.asset(
                   'assets/impactmate_logo.png',
-                  height: 150,
-                  width: 150,
+                  height: 100,
+                  width: 100,
                 ),
-                SizedBox(height: 1), // Tambahkan SizedBox // Tambahkan SizedBox
+                SizedBox(height: 20),
                 Text(
                   'Sign In to continue to Impact Mate',
                   style: TextStyle(
+                    fontFamily: 'Poppins',
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                   ),
@@ -44,8 +44,16 @@ class IMVerificationPage extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                   decoration: BoxDecoration(
-                    color: Color(0xFFD3E2E5),
+                    color: Color(0xFFFDFDFD),
                     borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -54,23 +62,29 @@ class IMVerificationPage extends StatelessWidget {
                       SizedBox(height: 20),
                       Text(
                         "Verify Your Account",
-                        style: TextStyle(fontFamily: 'Inter', fontSize: 24, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       SizedBox(height: 10),
                       Text(
                         "We’ve sent you the code to your email!\nPlease check your email and enter the code below.",
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 16,
+                        ),
                       ),
                       SizedBox(height: 20),
                       verificationCodeInput(),
-                      SizedBox(height: 5),
+                      SizedBox(height: 20),
                       MaterialButton(
                         onPressed: () {
-                          print("Done button pressed");
                           showVerificationSuccess(context);
                         },
-                        color: Color(0xFF434343),
+                        color: Color(0xFF293974),
                         minWidth: double.infinity,
                         height: 50,
                         shape: RoundedRectangleBorder(
@@ -78,7 +92,11 @@ class IMVerificationPage extends StatelessWidget {
                         ),
                         child: Text(
                           "Done",
-                          style: TextStyle(color: Colors.white, fontSize: 18),
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                     ],
@@ -99,6 +117,7 @@ class IMVerificationPage extends StatelessWidget {
         Text(
           "Enter your verification code",
           style: TextStyle(
+            fontFamily: 'Poppins',
             fontSize: 15,
             fontWeight: FontWeight.bold,
             color: Colors.black87,
@@ -107,7 +126,7 @@ class IMVerificationPage extends StatelessWidget {
         SizedBox(height: 5),
         Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Color(0xFFEAECF4),
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: Colors.grey.shade400),
           ),
@@ -125,19 +144,23 @@ class IMVerificationPage extends StatelessWidget {
   }
 
   void showVerificationSuccess(BuildContext context) {
-    print("Showing verification success dialog");
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         Future.delayed(Duration(seconds: 3), () {
           Navigator.of(context).pop();
-          print("Dialog closed");
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => CompanyForm ()));
-          print("Navigated to SelectPage");
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => CompanyForm()),
+          );
         });
         return AlertDialog(
-          title: Text('Verification Successful!'),
+          title: Text(
+            'Verification Successful!',
+            style: TextStyle(
+              fontFamily: 'Poppins',
+            ),
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,6 +174,9 @@ class IMVerificationPage extends StatelessWidget {
                     child: Text(
                       "You have successfully verified your account!",
                       overflow: TextOverflow.visible,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                      ),
                     ),
                   ),
                 ],

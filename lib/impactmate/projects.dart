@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:maxmovement/impactmate/im_home_page.dart';
 import 'package:maxmovement/impactmate/new_project.dart';
+import 'package:maxmovement/impactmate/new_report.dart';
+import 'package:maxmovement/impactmate/ongoing.dart';
+import 'package:maxmovement/impactmate/profile_page.dart';
+import 'package:maxmovement/impactmate/report_page.dart';
 import 'package:maxmovement/impactmate/sdg.dart';
 
 class ProjectPage extends StatefulWidget {
@@ -31,8 +35,8 @@ class _ProjectPageState extends State<ProjectPage> {
     return BottomNavigationBarItem(
       icon: Icon(
         icon,
-        size: 35,
-        color: _selectedTab == tabIndex ? Colors.black : null,
+        size: 25,
+        color: _selectedTab == tabIndex ? Color(0xFF273526) : null,
       ),
       label: label,
     );
@@ -40,6 +44,10 @@ class _ProjectPageState extends State<ProjectPage> {
 
   void _navigateToHomePage(BuildContext context) {
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => IMHomePage()));
+  }
+
+  void _navigateToOnGoingPage(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => OnGoingProject()));
   }
 
   // Method untuk menampilkan menu saat tombol ditekan
@@ -58,6 +66,7 @@ class _ProjectPageState extends State<ProjectPage> {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins', // Set font menjadi Poppins
                 ),
               ),
               SizedBox(height: 16),
@@ -65,7 +74,7 @@ class _ProjectPageState extends State<ProjectPage> {
                 children: <Widget>[
                   Material(
                     borderRadius: BorderRadius.circular(10),
-                    color: Color(0xFFC893FD),
+                    color: Color(0xFF517D5A),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(10),
                       onTap: () {
@@ -81,9 +90,11 @@ class _ProjectPageState extends State<ProjectPage> {
                         padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                         child: Row(
                           children: [
-                            Icon(Icons.add),
+                            Icon(Icons.add, color:Colors.white),
                             SizedBox(width: 10),
-                            Text('New Project'),
+                            Text('New Project',
+                            style: TextStyle(color: Colors.white, fontFamily: 'Poppins'), // Set font menjadi Poppins
+                            ),
                           ],
                         ),
                       ),
@@ -92,21 +103,25 @@ class _ProjectPageState extends State<ProjectPage> {
                   SizedBox(height: 60),
                   Material(
                     borderRadius: BorderRadius.circular(10),
-                    color: Color(0xFFC893FD),
+                    color: Color(0xFF517D5A),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(10),
                       onTap: () {
-                        // Logic for handling "Report Impact" selection
-                        Navigator.pop(context); // Close the bottom sheet
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => NewReport()),
+                        );
                       },
                       child: Container(
                         width: 500,
                         padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                         child: Row(
                           children: [
-                            Icon(Icons.report),
+                            Icon(Icons.report, color: Colors.white),
                             SizedBox(width: 10),
-                            Text('Report Impact'),
+                            Text('Report Impact', 
+                            style: TextStyle(color: Colors.white, fontFamily: 'Poppins'), // Set font menjadi Poppins
+                            ),
                           ],
                         ),
                       ),
@@ -120,11 +135,20 @@ class _ProjectPageState extends State<ProjectPage> {
       },
     );
   }
+  
+  void _navigateToReportsPage(BuildContext context) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ReportPage()));
+  }
+
+  void _navigateToProfilePage(BuildContext context) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ProfilePage()));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           _selectedTab == 1
               ? _projectStatus == 0
@@ -157,6 +181,7 @@ class _ProjectPageState extends State<ProjectPage> {
                       decoration: _projectStatus == 0
                           ? TextDecoration.underline
                           : TextDecoration.none,
+                      fontFamily: 'Poppins', // Set font menjadi Poppins
                     ),
                   ),
                 ),
@@ -172,6 +197,7 @@ class _ProjectPageState extends State<ProjectPage> {
                       decoration: _projectStatus == 1
                           ? TextDecoration.underline
                           : TextDecoration.none,
+                      fontFamily: 'Poppins', // Set font menjadi Poppins
                     ),
                   ),
                 ),
@@ -187,6 +213,7 @@ class _ProjectPageState extends State<ProjectPage> {
                       decoration: _projectStatus == 2
                           ? TextDecoration.underline
                           : TextDecoration.none,
+                      fontFamily: 'Poppins', // Set font menjadi Poppins
                     ),
                   ),
                 ),
@@ -202,6 +229,7 @@ class _ProjectPageState extends State<ProjectPage> {
                       decoration: _projectStatus == 3
                           ? TextDecoration.underline
                           : TextDecoration.none,
+                      fontFamily: 'Poppins', // Set font menjadi Poppins
                     ),
                   ),
                 ),
@@ -218,7 +246,7 @@ class _ProjectPageState extends State<ProjectPage> {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children:[
                   if (_projectStatus == 0)
                     Sdg(
                       title: 'Materials translation quality',
@@ -230,7 +258,7 @@ class _ProjectPageState extends State<ProjectPage> {
                       dateInfo:
                           'Starting Date : 22/02/2024\nEnds by: 22/06/2024 (Ending in 43 days)',
                       buttonText: 'Update',
-                      buttonText1: 'Delete',
+                      buttonText1: 'Delete',onUpdatePressed: () => _navigateToOnGoingPage(context),
                     ),
                   if (_projectStatus == 1)
                     Sdg(
@@ -244,6 +272,7 @@ class _ProjectPageState extends State<ProjectPage> {
                           'Starting Date : 22/02/2024 (12 days to start)\nEnds by: 22/06/2024',
                       buttonText: 'Start',
                       buttonText1: 'Delete',
+                      onUpdatePressed: () {},
                     ),
                   if (_projectStatus == 2)
                     Sdg(
@@ -256,7 +285,8 @@ class _ProjectPageState extends State<ProjectPage> {
                       dateInfo:
                           'Starting Date : 22/02/2024\nEnded on: 22/06/2024 ',
                       buttonText: 'Update', // Tombol pertama untuk status Draft
-                      buttonText1: 'Delete', // Tombol kedua untuk status Draft
+                      buttonText1: 'Delete',
+                      onUpdatePressed: () {}, // Tombol kedua untuk status Draft
                     ),
                   if (_projectStatus == 3)
                     Sdg(
@@ -270,6 +300,7 @@ class _ProjectPageState extends State<ProjectPage> {
                           'Starting Date : 22/02/2024\nEnded on: 22/06/2024 ',
                       buttonText: 'Review Survey', // Tombol pertama untuk status Done
                       buttonText1: 'Export in Docs', // Tombol kedua untuk status Done
+                      onUpdatePressed: () {},
                     ),
                   // Add other project cards based on different statuses
                   SizedBox(height: 16),
@@ -298,18 +329,23 @@ class _ProjectPageState extends State<ProjectPage> {
               ),
               label: '',
             ),
-            _bottomNavigationBarItem(Icons.line_axis, 'Reports', 2),
-            _bottomNavigationBarItem(Icons.perm_identity, 'Profile', 3),
+            _bottomNavigationBarItem(Icons.line_axis, 'Reports', 3),
+            _bottomNavigationBarItem(Icons.perm_identity, 'Profile', 4),
           ],
           currentIndex: _selectedTab,
           selectedItemColor: Colors.black,
           onTap: (index) {
             if (index == 0) {
               _navigateToHomePage(context);
+            } else if (index == 3) {
+              _navigateToReportsPage(context);
+            } else if (index == 4) { // Ini harus index 3 untuk Reports, bukan 3 untuk Profile
+              _navigateToProfilePage(context);
             } else {
               _onBottomNavigationTapped(index);
             }
           },
+
           type: BottomNavigationBarType.fixed,
         ),
       ),
@@ -319,6 +355,11 @@ class _ProjectPageState extends State<ProjectPage> {
 
 void main() {
   runApp(MaterialApp(
+    theme: ThemeData(
+      fontFamily: 'Poppins',
+      // Atur gaya teks default di sini jika diperlukan
+    ),
     home: ProjectPage(),
   ));
 }
+

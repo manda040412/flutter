@@ -13,13 +13,13 @@ class _CompanyFormState extends State<CompanyForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _companyNameController = TextEditingController();
   final TextEditingController _companyProfileController = TextEditingController();
-  final TextEditingController _picController = TextEditingController();
-  final TextEditingController _departmentController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _countryController = TextEditingController();
-  final TextEditingController _stateController = TextEditingController();
   final TextEditingController _employeesController = TextEditingController();
   final TextEditingController _fieldController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _workingDepartmentController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _countryRegionController = TextEditingController();
+  final TextEditingController _stateProvinceController = TextEditingController();
 
   File? _logoImage;
   final ImagePicker _picker = ImagePicker();
@@ -44,73 +44,132 @@ class _CompanyFormState extends State<CompanyForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Company Registration Form'),
+        title: Text(
+          'Registration Form',
+          style: TextStyle(
+            fontFamily: 'Poppins',
+          ),
+        ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
-      body: Center(
-        child: SizedBox(
-          width: 380, // Specify the width
-          height: 1000, // Specify the height
-          child: Container(
-            padding: EdgeInsets.all(30),
+      body: Stack(
+        children: [
+          Container(
             decoration: BoxDecoration(
-              color: Color(0xFFD3E2E5), // Background color
-              borderRadius: BorderRadius.circular(20), // Rounded corners
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3), // Changes position of shadow
-                ),
-              ],
-            ),
-            child: Form(
-              key: _formKey,
-              child: ListView(
-                children: <Widget>[
-                  Center(
-                    child: Text('Company Logo', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                  ),
-                  SizedBox(height: 24), // Correct position for SizedBox
-                  GestureDetector(
-                    onTap: _pickImage,
-                    child: CircleAvatar(
-                      radius: 60,
-                      backgroundColor: Colors.white,
-                      backgroundImage: _logoImage != null ? FileImage(_logoImage!) : null,
-                      child: _logoImage == null ? Icon(Icons.camera_alt, size: 50, color: Colors.grey.shade300) : null,
-                    ),
-                  ),
-                  SizedBox(height: 24),
-                  _buildTextField('Company Name', _companyNameController),
-                  _buildTextField('Company Profile', _companyProfileController),
-                  _buildTextField('PIC', _picController),
-                  _buildTextField('PIC\'s Department', _departmentController),
-                  _buildTextField('Phone Number', _phoneController),
-                  _buildTextField('Country/Region/Territory', _countryController),
-                  _buildTextField('State/Province/Region', _stateController),
-                  _buildTextField('Number of Employees', _employeesController),
-                  _buildTextField('Company Field', _fieldController),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () => _saveForm(context),
-                    child: Text('Save'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF434343),
-                      foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 40),
-                      textStyle: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                ],
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Color(0xFFDBE1B7), Color(0xFFD4DCD1), Colors.white],
               ),
             ),
           ),
-        ),
+          Center(
+            child: SingleChildScrollView(
+              child: SizedBox(
+                width: 380,
+                child: Container(
+                  padding: EdgeInsets.all(30),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFFDFDFD).withOpacity(0.9), // Add opacity here
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(8, 20),
+                      ),
+                    ],
+                  ),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        Center(
+                          child: Text(
+                            'Company Information',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 24),
+                        Center(
+                          child: Text(
+                            'Company Logo',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 24),
+                        GestureDetector(
+                          onTap: _pickImage,
+                          child: CircleAvatar(
+                            radius: 60,
+                            backgroundColor: Colors.grey[200],
+                            backgroundImage: _logoImage != null ? FileImage(_logoImage!) : null,
+                            child: _logoImage == null ? Icon(Icons.camera_alt, size: 50, color: Colors.grey.shade300) : null,
+                          ),
+                        ),
+                        SizedBox(height: 24),
+                        _buildTextField('Company Name', _companyNameController),
+                        _buildTextField('Company Profile', _companyProfileController),
+                        _buildTextField('Number of Employees', _employeesController),
+                        _buildTextField('Company Field', _fieldController),
+                        SizedBox(height: 24),
+                        Center(
+                          child: Text(
+                            'About Yourself',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 24),
+                        _buildTextField('Name', _nameController),
+                        _buildTextField('Your Working Department', _workingDepartmentController),
+                        _buildTextField('Phone Number', _phoneNumberController),
+                        _buildTextField('Country/Region/Territory', _countryRegionController),
+                        _buildTextField('State/Province/Region', _stateProvinceController),
+                        SizedBox(height: 24),
+                        ElevatedButton(
+                          onPressed: () => _saveForm(context),
+                          child: Text(
+                            'Save',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFF395143),
+                            foregroundColor: Colors.white,
+                            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 90),
+                            textStyle: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -118,25 +177,56 @@ class _CompanyFormState extends State<CompanyForm> {
   Widget _buildTextField(String label, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: label,
-          border: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.white,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 3,
+              blurRadius: 7,
+              offset: Offset(0, 3),
             ),
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          fillColor: Colors.white,
-          filled: true,
+          ],
         ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter $label';
-          }
-          return null;
-        },
+        child: TextFormField(
+          controller: controller,
+          decoration: InputDecoration(
+            labelText: label,
+            labelStyle: TextStyle(
+              fontFamily: 'Poppins',
+            ),
+            filled: true,
+            fillColor: Colors.white,
+            contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.transparent),
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.transparent),
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.transparent),
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.transparent),
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            errorStyle: TextStyle(
+              fontFamily: 'Poppins',
+              color: Colors.red,
+            ),
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter $label';
+            }
+            return null;
+          },
+        ),
       ),
     );
   }
@@ -145,13 +235,13 @@ class _CompanyFormState extends State<CompanyForm> {
     if (_formKey.currentState!.validate()) {
       print('Company Name: ${_companyNameController.text}');
       print('Company Profile: ${_companyProfileController.text}');
-      print('PIC: ${_picController.text}');
-      print('Department: ${_departmentController.text}');
-      print('Phone: ${_phoneController.text}');
-      print('Country: ${_countryController.text}');
-      print('State: ${_stateController.text}');
-      print('Employees: ${_employeesController.text}');
-      print('Field: ${_fieldController.text}');
+      print('Number of Employees: ${_employeesController.text}');
+      print('Company Field: ${_fieldController.text}');
+      print('Name: ${_nameController.text}');
+      print('Your Working Department: ${_workingDepartmentController.text}');
+      print('Phone Number: ${_phoneNumberController.text}');
+      print('Country/Region/Territory: ${_countryRegionController.text}');
+      print('State/Province/Region: ${_stateProvinceController.text}');
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
