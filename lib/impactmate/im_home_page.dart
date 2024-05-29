@@ -7,7 +7,6 @@ import 'package:maxmovement/impactmate/new_report.dart';
 import 'package:maxmovement/impactmate/profile_page.dart';
 import 'package:maxmovement/impactmate/projects.dart';
 import 'package:maxmovement/impactmate/report_page.dart';
-import 'package:maxmovement/impactmate/statistic.dart';
 
 class PricePoint {
   final double x;
@@ -31,12 +30,6 @@ class BarChartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => StatisticPage()), // Ganti StatisticPage dengan halaman yang sesuai
-        );
-      },
       child: AspectRatio(
         aspectRatio: 2,
         child: BarChart(
