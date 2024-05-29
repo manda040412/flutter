@@ -30,6 +30,12 @@ class BarChartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      // onTap: () {
+      //   Navigator.push(
+      //     context,
+      //     MaterialPageRoute(builder: (context) => StatisticPage()), // Ganti StatisticPage dengan halaman yang sesuai
+      //   );
+      // },
       child: AspectRatio(
         aspectRatio: 2,
         child: BarChart(

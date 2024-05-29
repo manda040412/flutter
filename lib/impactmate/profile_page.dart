@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maxmovement/impactmate/edit_profile.dart';
 import 'package:maxmovement/impactmate/im_home_page.dart';
 import 'package:maxmovement/impactmate/im_login.dart';
 import 'package:maxmovement/impactmate/new_project.dart';
@@ -57,7 +58,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          // Add edit profile functionality here
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => EditProfilePage()),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFF395143), // Ubah warna tombol
@@ -131,7 +135,7 @@ class _ProfilePageState extends State<ProfilePage> {
             _bottomNavigationBarItem(Icons.line_axis, 'Reports', 2),
             _bottomNavigationBarItem(Icons.perm_identity, 'Profile', 3),
           ],
-          currentIndex: _selectedIndex,
+          currentIndex: 4,
           selectedItemColor: Colors.black,
           onTap: _onItemTapped,
           type: BottomNavigationBarType.fixed,
